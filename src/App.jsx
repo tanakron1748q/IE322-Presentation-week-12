@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&family=Kanit:wght@300;400;500;600;700&display=swap');
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Kanit', 'DM Sans', sans-serif;
     background: #fafafa;
     color: #111;
   }
@@ -89,7 +89,7 @@ const styles = `
   .card:nth-child(5) { animation-delay: 0.3s; }
 
   .card-label {
-    font-size: 9px;
+    font-size: 16px;
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -509,6 +509,7 @@ const styles = `
     font-size: 12px;
     font-weight: 600;
     color: #111;
+    text-align: left;
   }
 
   .lever-text p {
@@ -516,6 +517,7 @@ const styles = `
     color: #888;
     margin-top: 2px;
     font-weight: 300;
+    text-align: left;
   }
 
   /* BUSINESS MODEL */
@@ -634,7 +636,7 @@ const styles = `
 
   .gauge-number {
     position: absolute;
-    bottom: 0;
+    bottom: 5px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -701,26 +703,26 @@ const barHeights = [55, 70, 45, 80, 65, 90, 75];
 const barMonths = ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr"];
 
 const residents = [
-  { name: "Somchai P.", unit: "A-101", color: "#1a56db", initials: "SP", fee: "badge-green", feeLabel: "Paid" },
-  { name: "Nuttida K.", unit: "B-203", color: "#059669", initials: "NK", fee: "badge-green", feeLabel: "Paid" },
-  { name: "Wanchai T.", unit: "C-315", color: "#d97706", initials: "WT", fee: "badge-orange", feeLabel: "Due" },
-  { name: "Patcharee S.", unit: "A-204", color: "#7c3aed", initials: "PS", fee: "badge-green", feeLabel: "Paid" },
-  { name: "Ratthapong M.", unit: "D-108", color: "#e53e3e", initials: "RM", fee: "badge-red", feeLabel: "Late" },
+  { name: "Somchai P.", unit: "A-101", color: "#1a56db", initials: "SP", fee: "badge-green", feeLabel: "ชำระแล้ว" },
+  { name: "Nuttida K.", unit: "B-203", color: "#059669", initials: "NK", fee: "badge-green", feeLabel: "ชำระแล้ว" },
+  { name: "Wanchai T.", unit: "C-315", color: "#d97706", initials: "WT", fee: "badge-orange", feeLabel: "ครบกำหนด" },
+  { name: "Patcharee S.", unit: "A-204", color: "#7c3aed", initials: "PS", fee: "badge-green", feeLabel: "ชำระแล้ว" },
+  { name: "Ratthapong M.", unit: "D-108", color: "#e53e3e", initials: "RM", fee: "badge-red", feeLabel: "ล่าช้า" },
 ];
 
 const finances = [
-  { label: "Monthly Fees — Apr", date: "Apr 1, 2025", amount: "+฿180,000", color: "#22c55e", positive: true },
-  { label: "Maintenance Work", date: "Apr 5, 2025", amount: "-฿32,500", color: "#ef4444", positive: false },
-  { label: "Security Service", date: "Apr 8, 2025", amount: "-฿18,000", color: "#ef4444", positive: false },
-  { label: "Pool Cleaning", date: "Apr 10, 2025", amount: "-฿6,200", color: "#ef4444", positive: false },
-  { label: "Late Fee Income", date: "Apr 12, 2025", amount: "+฿4,500", color: "#22c55e", positive: true },
+  { label: "ค่าธรรมเนียมรายเดือน — เมษายน", date: "1 เมษายน 2025", amount: "+฿180,000", color: "#22c55e", positive: true },
+  { label: "งานซ่อมบำรุง", date: "5 เมษายน 2025", amount: "-฿32,500", color: "#ef4444", positive: false },
+  { label: "บริการรักษาความปลอดภัย", date: "8 เมษายน 2025", amount: "-฿18,000", color: "#ef4444", positive: false },
+  { label: "ทำความสะอาดสระว่ายน้ำ", date: "10 เมษายน 2025", amount: "-฿6,200", color: "#ef4444", positive: false },
+  { label: "รายได้ค่าปรับล่าช้า", date: "12 เมษายน 2025", amount: "+฿4,500", color: "#22c55e", positive: true },
 ];
 
 const requests = [
-  { icon: "🔧", cls: "sli-blue", label: "Fix AC Unit — B-203", sub: "Requested · 2h ago", badge: "badge-orange", status: "In Progress" },
-  { icon: "🌿", cls: "sli-green", label: "Garden Maintenance", sub: "Scheduled · Apr 18", badge: "badge-blue", status: "Scheduled" },
-  { icon: "💡", cls: "sli-orange", label: "Lobby Light Out — Bldg C", sub: "Submitted · 1d ago", badge: "badge-orange", status: "Pending" },
-  { icon: "🚗", cls: "sli-red", label: "Parking Dispute — P12", sub: "Urgent · 30m ago", badge: "badge-red", status: "Urgent" },
+  { icon: "🔧", cls: "sli-blue", label: "ซ่อมเครื่องปรับอากาศ — B-203", sub: "ขอแล้ว · 2 ชม. ที่ผ่านมา", badge: "badge-orange", status: "กำลังดำเนินการ" },
+  { icon: "🌿", cls: "sli-green", label: "บำรุงสวน", sub: "กำหนดแล้ว · 18 เมษายน", badge: "badge-blue", status: "กำหนดแล้ว" },
+  { icon: "💡", cls: "sli-orange", label: "ไฟล็อบบี้ดับ — อาคาร C", sub: "ส่งแล้ว · 1 วันที่แล้ว", badge: "badge-orange", status: "รอดำเนินการ" },
+  { icon: "🚗", cls: "sli-red", label: "ข้อพิพาทที่จอดรถ — P12", sub: "ด่วน · 30 นาทีที่แล้ว", badge: "badge-red", status: "ด่วน" },
 ];
 
 export default function VillageHub() {
@@ -734,12 +736,12 @@ export default function VillageHub() {
     return () => { clearTimeout(t); clearTimeout(t2); };
   }, []);
 
-  const tabs = ["Dashboard", "Residents", "Finance", "Requests"];
+  const tabs = ["แดชบอร์ด", "ผู้อยู่อาศัย", "การเงิน", "คำขอ"];
   const bottomNav = [
-    { icon: "🏠", label: "Home" },
-    { icon: "👥", label: "Residents" },
-    { icon: "💬", label: "Chat" },
-    { icon: "⚙️", label: "Settings" },
+    { icon: "🏠", label: "หน้าแรก" },
+    { icon: "👥", label: "ผู้อยู่อาศัย" },
+    { icon: "💬", label: "แชท" },
+    { icon: "⚙️", label: "ตั้งค่า" },
   ];
 
   const pct = gaugeAnim;
@@ -754,8 +756,8 @@ export default function VillageHub() {
         {/* HEADER */}
         <div className="header">
           <div className="header-badge">แพลตฟอร์มชุมชนอัจฉริยะ</div>
-          <h1><span>VillageHub</span>: แพลตฟอร์มจัดการชุมชนอัจฉริยะ</h1>
-          <p>อัจฉริยะ · โปร่งใส · ชุมชนที่เชื่อมต่อกัน</p>
+          <h1><span>VillageHub</span>: แพลตฟอร์มจัดการชุมชนอัจฉริยะ<br />ที่เปลี่ยนแปลงทุกอย่าง</h1>
+          <p>อัจฉริยะ · โปร่งใส · เชื่อมต่อทุกคนในชุมชน</p>
         </div>
 
         {/* MAIN GRID */}
@@ -763,12 +765,12 @@ export default function VillageHub() {
 
           {/* PROBLEM */}
           <div className="card card-problem">
-            <div className="card-label">Problem</div>
+            <div className="card-label">ปัญหาที่ต้องแก้ไข</div>
             {[
-              "Inefficient administrative processes",
-              "Lack of transparency in decision-making",
-              "Fragmented communication channels",
-              "No centralized data management",
+              "กระบวนการบริหารที่ล่าช้าและไม่มีประสิทธิภาพ",
+              "ขาดความโปร่งใสในการตัดสินใจสำคัญ",
+              "ช่องทางการสื่อสารที่กระจัดกระจายและไม่เป็นระบบ",
+              "ไม่มีระบบจัดการข้อมูลแบบรวมศูนย์",
             ].map((text, i) => (
               <div className="problem-item" key={i}>
                 <div className="problem-dot" />
@@ -779,7 +781,7 @@ export default function VillageHub() {
 
           {/* SOLUTION (center) */}
           <div className="card card-solution">
-            <div className="card-label" style={{ color: "#6b9fff" }}>Solution — VillageHub Platform</div>
+            <div className="card-label" style={{ color: "#6b9fff", paddingLeft:"61px" }}>VillageHub</div>
 
             {/* Phone Mockup */}
             <div className="phone-mockup">
@@ -800,8 +802,8 @@ export default function VillageHub() {
                   <div className="appbar-left">
                     <div className="appbar-avatar">V</div>
                     <div>
-                      <div className="appbar-greeting">Good morning,</div>
-                      <div className="appbar-name">Admin Chaiwat</div>
+                      <div className="appbar-greeting">สวัสดีตอนเช้า,</div>
+                      <div className="appbar-name">แอดมิน ชัยวัฒน์</div>
                     </div>
                   </div>
                   <div className="appbar-right">
@@ -827,14 +829,14 @@ export default function VillageHub() {
                   {/* DASHBOARD */}
                   {activeTab === 0 && (<>
                     <div className="screen-stat-row">
-                      {[["300", "Units"], ["287", "Residents"], ["94%", "Fee Rate"]].map(([n, l]) => (
+                      {[["300", "ยูนิต"], ["287", "ผู้อยู่อาศัย"], ["94%", "อัตราการชำระค่าธรรมเนียม"]].map(([n, l]) => (
                         <div className="screen-stat" key={l}>
                           <div className="screen-stat-num">{n}</div>
                           <div className="screen-stat-label">{l}</div>
                         </div>
                       ))}
                     </div>
-                    <div className="screen-section-title">Monthly Fee Collection</div>
+                    <div className="screen-section-title">การเก็บค่าธรรมเนียมรายเดือน</div>
                     <div className="screen-chart-bar-row">
                       {barHeights.map((h, i) => (
                         <div className="screen-chart-bar-wrap" key={i}>
@@ -848,7 +850,7 @@ export default function VillageHub() {
                     <div style={{ display:"flex", gap:"4px", marginBottom:"8px" }}>
                       {barMonths.map(m => <div key={m} className="screen-chart-label" style={{ flex:1, textAlign:"center" }}>{m}</div>)}
                     </div>
-                    <div className="screen-section-title">Recent Activity</div>
+                    <div className="screen-section-title">กิจกรรมล่าสุด</div>
                     {requests.slice(0,2).map(r => (
                       <div className="screen-list-item" key={r.label}>
                         <div className="screen-list-left">
@@ -866,8 +868,8 @@ export default function VillageHub() {
                   {/* RESIDENTS */}
                   {activeTab === 1 && (<>
                     <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"6px" }}>
-                      <span className="screen-section-title" style={{ margin:0 }}>All Residents</span>
-                      <span className="screen-badge badge-blue">287 Active</span>
+                      <span className="screen-section-title" style={{ margin:0 }}>ผู้อยู่อาศัยทั้งหมด</span>
+                      <span className="screen-badge badge-blue">287 ใช้งานอยู่</span>
                     </div>
                     {residents.map(r => (
                       <div className="resident-card" key={r.name}>
@@ -886,11 +888,11 @@ export default function VillageHub() {
                   {/* FINANCE */}
                   {activeTab === 2 && (<>
                     <div className="finance-summary">
-                      <div className="finance-label">April Balance</div>
+                      <div className="finance-label">ยอดคงเหลือเดือนเมษายน</div>
                       <div className="finance-amount">฿127,800</div>
-                      <div className="finance-sub">↑ ฿12,300 from last month</div>
+                      <div className="finance-sub">↑ ฿12,300 จากเดือนที่แล้ว</div>
                     </div>
-                    <div className="screen-section-title">Transactions</div>
+                    <div className="screen-section-title">ธุรกรรม</div>
                     {finances.map(f => (
                       <div className="finance-row" key={f.label}>
                         <div className="finance-row-left">
@@ -908,8 +910,8 @@ export default function VillageHub() {
                   {/* REQUESTS */}
                   {activeTab === 3 && (<>
                     <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"6px" }}>
-                      <span className="screen-section-title" style={{ margin:0 }}>Requests</span>
-                      <span className="screen-badge badge-orange">4 Open</span>
+                      <span className="screen-section-title" style={{ margin:0 }}>คำขอ</span>
+                      <span className="screen-badge badge-orange">4 เปิดอยู่</span>
                     </div>
                     {requests.map(r => (
                       <div className="screen-list-item" key={r.label}>
@@ -946,9 +948,9 @@ export default function VillageHub() {
             {/* Features */}
             <div className="solution-features">
               {[
-                { icon: "⚡", cls: "fi-blue", title: "Efficiency & Engagement", desc: "Real-time dashboard for management & full transparency" },
-                { icon: "📱", cls: "fi-indigo", title: "Mobile App", desc: "Resident convenience, engagement & notifications" },
-                { icon: "🗂️", cls: "fi-teal", title: "Single Source of Truth", desc: "One platform covering all community needs" },
+                { icon: "⚡", cls: "fi-blue", title: "ประสิทธิภาพสูงสุดและการมีส่วนร่วม", desc: "แดชบอร์ดแบบเรียลไทม์ที่ช่วยจัดการได้ง่ายและโปร่งใสเต็มรูปแบบ" },
+                { icon: "📱", cls: "fi-indigo", title: "แอปมือถือที่ใช้งานง่าย", desc: "ความสะดวกสบายสำหรับผู้อยู่อาศัย เพิ่มการมีส่วนร่วม และแจ้งเตือนทันที" },
+                { icon: "🗂️", cls: "fi-teal", title: "แหล่งข้อมูลเดียวที่เชื่อถือได้", desc: "แพลตฟอร์มครบครันที่ตอบสนองทุกความต้องการของชุมชน" },
               ].map((f) => (
                 <div className="feature-item" key={f.title}>
                   <div className={`feature-icon ${f.cls}`}>{f.icon}</div>
@@ -963,32 +965,32 @@ export default function VillageHub() {
 
           {/* BUSINESS MODEL */}
           <div className="card card-biz">
-            <div className="card-label">Business Model</div>
+            <div className="card-label">โมเดลธุรกิจที่ยั่งยืน</div>
             <div className="biz-triangle">
               <div className="biz-node">
                 <div className="biz-dot" />
-                <div className="biz-node-label">Decision Maker</div>
-                <div className="biz-node-sub">(Committee)</div>
+                <div className="biz-node-label">ผู้ตัดสินใจ</div>
+                <div className="biz-node-sub">(คณะกรรมการ)</div>
               </div>
               <div className="biz-connector" />
               <div className="biz-row">
                 <div className="biz-node">
                   <div className="biz-dot" />
-                  <div className="biz-node-label">Payer</div>
-                  <div className="biz-node-sub">(Villa Assoc.)</div>
+                  <div className="biz-node-label">ผู้ชำระเงิน</div>
+                  <div className="biz-node-sub">(สมาคมหมู่บ้าน)</div>
                 </div>
                 <div className="biz-node">
                   <div className="biz-dot" />
-                  <div className="biz-node-label">User</div>
-                  <div className="biz-node-sub">(Residents)</div>
+                  <div className="biz-node-label">ผู้ใช้</div>
+                  <div className="biz-node-sub">(ผู้อยู่อาศัย)</div>
                 </div>
               </div>
             </div>
             <div className="biz-details">
               {[
-                ["Model", "SaaS — Monthly Subscription"],
-                ["Market", "Housing Projects & Asset Firms"],
-                ["Revenue", "Monthly Subscription"],
+                ["โมเดล", "SaaS — การสมัครสมาชิกประจำเดือน"],
+                ["ตลาด", "โครงการที่อยู่อาศัยและบริษัทจัดการสินทรัพย์"],
+                ["รายได้", "การสมัครสมาชิกประจำเดือน"],
               ].map(([k, v]) => (
                 <div className="biz-tag" key={k}>
                   <span className="biz-tag-key">{k}</span>
@@ -1000,10 +1002,10 @@ export default function VillageHub() {
 
           {/* VALUE LEVERS */}
           <div className="card card-value">
-            <div className="card-label">Value Levers</div>
+            <div className="card-label">จุดสร้างมูลค่าที่โดดเด่น</div>
             {[
-              { icon: "⚖️", cls: "li-green", title: "Structural Value", sub: "Records & Documentation" },
-              { icon: "🛡️", cls: "li-blue", title: "Emotional Value", sub: "Trust & Community Pride" },
+              { icon: "⚖️", cls: "li-green", title: "มูลค่าทางโครงสร้าง", sub: "บันทึกและเอกสารที่ครบถ้วนและปลอดภัย" },
+              { icon: "🛡️", cls: "li-blue", title: "มูลค่าทางอารมณ์", sub: "สร้างความไว้วางใจและความภาคภูมิใจในชุมชน" },
             ].map((l) => (
               <div className="lever-item" key={l.title}>
                 <div className={`lever-icon ${l.cls}`}>{l.icon}</div>
@@ -1017,7 +1019,7 @@ export default function VillageHub() {
 
           {/* HEALTH SCORE */}
           <div className="card card-health">
-            <div className="card-label">Health Score</div>
+            <div className="card-label">คะแนนสุขภาพชุมชน</div>
             <div className="health-body">
               <div className="gauge-wrap">
                 <svg width="80" height="44" viewBox="0 0 80 50" className="gauge-svg">
@@ -1048,16 +1050,16 @@ export default function VillageHub() {
               </div>
               <div className="health-meta">
                 <div className="health-row">
-                  <span className="health-row-label">Overall</span>
-                  <span className="health-row-value hv-strong">STRONG</span>
+                  <span className="health-row-label">โดยรวม</span>
+                  <span className="health-row-value hv-strong">แข็งแรง</span>
                 </div>
                 <div className="health-row">
-                  <span className="health-row-label">Problem Severity</span>
-                  <span className="health-row-value hv-red">HIGH</span>
+                  <span className="health-row-label">ความรุนแรงของปัญหา</span>
+                  <span className="health-row-value hv-red">สูง</span>
                 </div>
                 <div className="health-row">
-                  <span className="health-row-label">Payer/User Clarity</span>
-                  <span className="health-row-value hv-green">CLEAR</span>
+                  <span className="health-row-label">ความชัดเจนของผู้ชำระเงิน/ผู้ใช้</span>
+                  <span className="health-row-value hv-green">ชัดเจน</span>
                 </div>
               </div>
             </div>
