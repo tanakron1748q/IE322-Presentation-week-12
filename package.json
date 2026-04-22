@@ -1,4 +1,5 @@
 {
+  "homepage": "https://tanakron1748q.github.io/IE322-Presentation-week-12",
   "name": "presentation-week-14",
   "private": true,
   "version": "0.0.0",
@@ -7,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^19.2.5",
