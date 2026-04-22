@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap');
@@ -146,101 +146,287 @@ const styles = `
   .card-solution .card-label { color: #6b9fff; }
   .card-solution .card-label::after { background: #222; }
 
+  /* PHONE MOCKUP */
   .phone-mockup {
-    background: linear-gradient(145deg, #1a1a1a, #111);
-    border: 1px solid #2a2a2a;
-    border-radius: 24px;
-    padding: 16px;
+    background: linear-gradient(160deg, #1e1e1e 0%, #111 100%);
+    border: 1.5px solid #2a2a2a;
+    border-radius: 28px;
+    padding: 10px 10px 14px;
     margin: 4px 0 20px;
     position: relative;
-    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  .phone-notch {
+    width: 40px;
+    height: 5px;
+    background: #2a2a2a;
+    border-radius: 100px;
+    margin: 0 auto 8px;
   }
 
   .phone-screen {
-    background: #fff;
-    border-radius: 14px;
-    padding: 12px;
-    min-height: 180px;
+    background: #f7f8fa;
+    border-radius: 18px;
+    overflow: hidden;
   }
 
-  .screen-header {
+  /* Status bar */
+  .screen-statusbar {
+    background: #fff;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #f0f0f0;
+    padding: 5px 10px 3px;
   }
-
-  .screen-logo {
-    font-size: 10px;
+  .statusbar-time {
+    font-size: 8px;
     font-weight: 700;
-    color: #1a56db;
-    letter-spacing: 0.05em;
+    color: #111;
+    letter-spacing: 0.03em;
+  }
+  .statusbar-icons {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .statusbar-icon {
+    font-size: 7px;
+    color: #555;
   }
 
-  .screen-status {
-    width: 6px;
-    height: 6px;
+  /* App top bar */
+  .screen-appbar {
+    background: #fff;
+    padding: 6px 10px 8px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .appbar-left { display: flex; align-items: center; gap: 6px; }
+  .appbar-avatar {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: linear-gradient(135deg, #1a56db, #6366f1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8px; color: #fff; font-weight: 700;
+  }
+  .appbar-greeting { font-size: 9px; color: #888; font-weight: 300; }
+  .appbar-name { font-size: 10px; font-weight: 600; color: #111; margin-top: 0; }
+  .appbar-right { display: flex; gap: 6px; }
+  .appbar-btn {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #f5f5f5; border: none;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; cursor: pointer;
+  }
+  .notif-dot {
+    position: relative;
+  }
+  .notif-dot::after {
+    content: '';
+    position: absolute;
+    top: 1px; right: 1px;
+    width: 5px; height: 5px;
+    background: #ef4444;
     border-radius: 50%;
-    background: #22c55e;
+    border: 1px solid #fff;
   }
 
+  /* Tab nav */
+  .screen-tabs {
+    display: flex;
+    background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0 8px;
+  }
+  .screen-tab {
+    flex: 1;
+    padding: 6px 0 5px;
+    font-size: 8px;
+    font-weight: 500;
+    color: #bbb;
+    text-align: center;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .screen-tab.active {
+    color: #1a56db;
+    border-bottom-color: #1a56db;
+    font-weight: 600;
+  }
+
+  /* Tab content */
+  .screen-body { padding: 8px; min-height: 220px; }
+
+  /* Dashboard tab */
   .screen-stat-row {
     display: flex;
-    gap: 6px;
-    margin-bottom: 8px;
+    gap: 5px;
+    margin-bottom: 7px;
   }
-
   .screen-stat {
     flex: 1;
-    background: #f8faff;
-    border-radius: 8px;
-    padding: 8px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 7px 5px;
     text-align: center;
+    border: 1px solid #f0f0f0;
   }
-
   .screen-stat-num {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     color: #1a56db;
     line-height: 1;
   }
-
   .screen-stat-label {
-    font-size: 7px;
-    color: #999;
+    font-size: 6.5px;
+    color: #aaa;
     margin-top: 2px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
   }
+
+  .screen-section-title {
+    font-size: 8px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 8px 0 5px;
+  }
+
+  .screen-chart-bar-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 36px;
+    margin-bottom: 3px;
+  }
+  .screen-chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .screen-chart-bar {
+    width: 100%;
+    border-radius: 3px 3px 0 0;
+    background: #dbeafe;
+    transition: height 0.8s cubic-bezier(.4,0,.2,1);
+  }
+  .screen-chart-bar.active-bar { background: #1a56db; }
+  .screen-chart-label { font-size: 6px; color: #bbb; }
 
   .screen-list-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 0;
-    border-bottom: 1px solid #f5f5f5;
+    padding: 5px 6px;
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    border: 1px solid #f5f5f5;
   }
-
-  .screen-list-item:last-child { border-bottom: none; }
-
+  .screen-list-left { display: flex; align-items: center; gap: 6px; }
+  .screen-list-icon {
+    width: 20px; height: 20px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center; font-size: 9px;
+  }
+  .sli-blue { background: #eff6ff; }
+  .sli-green { background: #f0fdf4; }
+  .sli-orange { background: #fff7ed; }
+  .sli-red { background: #fef2f2; }
+  .screen-list-info {}
   .screen-list-label {
     font-size: 8px;
-    color: #555;
+    color: #333;
     font-weight: 500;
+    display: block;
   }
-
+  .screen-list-sub {
+    font-size: 7px;
+    color: #bbb;
+    display: block;
+    margin-top: 1px;
+  }
   .screen-badge {
     font-size: 7px;
     padding: 2px 6px;
     border-radius: 100px;
     font-weight: 600;
+    white-space: nowrap;
   }
-
   .badge-green { background: #dcfce7; color: #16a34a; }
   .badge-blue { background: #dbeafe; color: #1d4ed8; }
   .badge-orange { background: #ffedd5; color: #c2410c; }
+  .badge-red { background: #fee2e2; color: #dc2626; }
+  .badge-gray { background: #f3f4f6; color: #6b7280; }
+
+  /* Residents tab */
+  .resident-card {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px;
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #f0f0f0;
+  }
+  .resident-avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .resident-info { flex: 1; }
+  .resident-name { font-size: 9px; font-weight: 600; color: #222; }
+  .resident-unit { font-size: 7.5px; color: #aaa; margin-top: 1px; }
+  .resident-status-col { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+
+  /* Finance tab */
+  .finance-summary {
+    background: linear-gradient(135deg, #1a56db, #3b82f6);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+  .finance-label { font-size: 7px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.1em; }
+  .finance-amount { font-size: 18px; font-weight: 700; line-height: 1.2; }
+  .finance-sub { font-size: 7px; opacity: 0.6; margin-top: 2px; }
+  .finance-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 6px;
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    border: 1px solid #f5f5f5;
+  }
+  .finance-row-left { display: flex; align-items: center; gap: 6px; }
+  .finance-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .finance-row-label { font-size: 8px; color: #333; font-weight: 500; }
+  .finance-row-date { font-size: 7px; color: #bbb; margin-top: 1px; }
+  .finance-amount-sm { font-size: 8.5px; font-weight: 700; }
+
+  /* Bottom nav */
+  .screen-bottomnav {
+    display: flex;
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+    padding: 6px 0 8px;
+  }
+  .bottom-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+  }
+  .bottom-nav-icon { font-size: 12px; }
+  .bottom-nav-label { font-size: 6.5px; color: #bbb; font-weight: 500; }
+  .bottom-nav-item.active .bottom-nav-label { color: #1a56db; }
+  .bottom-nav-item.active .bottom-nav-icon { filter: none; }
+
 
   .solution-features {
     display: flex;
@@ -511,18 +697,53 @@ const styles = `
   }
 `;
 
+const barHeights = [55, 70, 45, 80, 65, 90, 75];
+const barMonths = ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr"];
+
+const residents = [
+  { name: "Somchai P.", unit: "A-101", color: "#1a56db", initials: "SP", fee: "badge-green", feeLabel: "Paid" },
+  { name: "Nuttida K.", unit: "B-203", color: "#059669", initials: "NK", fee: "badge-green", feeLabel: "Paid" },
+  { name: "Wanchai T.", unit: "C-315", color: "#d97706", initials: "WT", fee: "badge-orange", feeLabel: "Due" },
+  { name: "Patcharee S.", unit: "A-204", color: "#7c3aed", initials: "PS", fee: "badge-green", feeLabel: "Paid" },
+  { name: "Ratthapong M.", unit: "D-108", color: "#e53e3e", initials: "RM", fee: "badge-red", feeLabel: "Late" },
+];
+
+const finances = [
+  { label: "Monthly Fees — Apr", date: "Apr 1, 2025", amount: "+฿180,000", color: "#22c55e", positive: true },
+  { label: "Maintenance Work", date: "Apr 5, 2025", amount: "-฿32,500", color: "#ef4444", positive: false },
+  { label: "Security Service", date: "Apr 8, 2025", amount: "-฿18,000", color: "#ef4444", positive: false },
+  { label: "Pool Cleaning", date: "Apr 10, 2025", amount: "-฿6,200", color: "#ef4444", positive: false },
+  { label: "Late Fee Income", date: "Apr 12, 2025", amount: "+฿4,500", color: "#22c55e", positive: true },
+];
+
+const requests = [
+  { icon: "🔧", cls: "sli-blue", label: "Fix AC Unit — B-203", sub: "Requested · 2h ago", badge: "badge-orange", status: "In Progress" },
+  { icon: "🌿", cls: "sli-green", label: "Garden Maintenance", sub: "Scheduled · Apr 18", badge: "badge-blue", status: "Scheduled" },
+  { icon: "💡", cls: "sli-orange", label: "Lobby Light Out — Bldg C", sub: "Submitted · 1d ago", badge: "badge-orange", status: "Pending" },
+  { icon: "🚗", cls: "sli-red", label: "Parking Dispute — P12", sub: "Urgent · 30m ago", badge: "badge-red", status: "Urgent" },
+];
+
 export default function VillageHub() {
   const [gaugeAnim, setGaugeAnim] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
+  const [barsReady, setBarsReady] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setGaugeAnim(75), 400);
-    return () => clearTimeout(t);
+    const t2 = setTimeout(() => setBarsReady(true), 600);
+    return () => { clearTimeout(t); clearTimeout(t2); };
   }, []);
+
+  const tabs = ["Dashboard", "Residents", "Finance", "Requests"];
+  const bottomNav = [
+    { icon: "🏠", label: "Home" },
+    { icon: "👥", label: "Residents" },
+    { icon: "💬", label: "Chat" },
+    { icon: "⚙️", label: "Settings" },
+  ];
 
   const pct = gaugeAnim;
   const r = 36;
-  const cx = 40;
-  const cy = 40;
   const circ = Math.PI * r;
   const offset = circ - (pct / 100) * circ;
 
@@ -532,9 +753,9 @@ export default function VillageHub() {
       <div className="page">
         {/* HEADER */}
         <div className="header">
-          <div className="header-badge">Smart Community Platform</div>
-          <h1><span>VillageHub</span>: Smart Community<br />Management Platform</h1>
-          <p>Smart · Transparent · Connected Village Management</p>
+          <div className="header-badge">แพลตฟอร์มชุมชนอัจฉริยะ</div>
+          <h1><span>VillageHub</span>: แพลตฟอร์มจัดการชุมชนอัจฉริยะ</h1>
+          <p>อัจฉริยะ · โปร่งใส · ชุมชนที่เชื่อมต่อกัน</p>
         </div>
 
         {/* MAIN GRID */}
@@ -562,29 +783,163 @@ export default function VillageHub() {
 
             {/* Phone Mockup */}
             <div className="phone-mockup">
+              <div className="phone-notch" />
               <div className="phone-screen">
-                <div className="screen-header">
-                  <span className="screen-logo">VillageHub</span>
-                  <div className="screen-status" />
+                {/* Status bar */}
+                <div className="screen-statusbar">
+                  <span className="statusbar-time">9:41</span>
+                  <div className="statusbar-icons">
+                    <span className="statusbar-icon">●●●●</span>
+                    <span className="statusbar-icon">WiFi</span>
+                    <span className="statusbar-icon">🔋</span>
+                  </div>
                 </div>
-                <div className="screen-stat-row">
-                  {[["300", "Management"], ["300", "Residents"], ["125", "Decisions"]].map(([n, l]) => (
-                    <div className="screen-stat" key={l}>
-                      <div className="screen-stat-num">{n}</div>
-                      <div className="screen-stat-label">{l}</div>
+
+                {/* App bar */}
+                <div className="screen-appbar">
+                  <div className="appbar-left">
+                    <div className="appbar-avatar">V</div>
+                    <div>
+                      <div className="appbar-greeting">Good morning,</div>
+                      <div className="appbar-name">Admin Chaiwat</div>
+                    </div>
+                  </div>
+                  <div className="appbar-right">
+                    <div className="appbar-btn notif-dot">🔔</div>
+                    <div className="appbar-btn">👤</div>
+                  </div>
+                </div>
+
+                {/* Tab nav */}
+                <div className="screen-tabs">
+                  {tabs.map((t, i) => (
+                    <div
+                      key={t}
+                      className={`screen-tab${activeTab === i ? " active" : ""}`}
+                      onClick={() => setActiveTab(i)}
+                    >{t}</div>
+                  ))}
+                </div>
+
+                {/* Tab content */}
+                <div className="screen-body">
+
+                  {/* DASHBOARD */}
+                  {activeTab === 0 && (<>
+                    <div className="screen-stat-row">
+                      {[["300", "Units"], ["287", "Residents"], ["94%", "Fee Rate"]].map(([n, l]) => (
+                        <div className="screen-stat" key={l}>
+                          <div className="screen-stat-num">{n}</div>
+                          <div className="screen-stat-label">{l}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="screen-section-title">Monthly Fee Collection</div>
+                    <div className="screen-chart-bar-row">
+                      {barHeights.map((h, i) => (
+                        <div className="screen-chart-bar-wrap" key={i}>
+                          <div
+                            className={`screen-chart-bar${i === 6 ? " active-bar" : ""}`}
+                            style={{ height: barsReady ? `${h}%` : "0%", transition: `height ${0.4 + i * 0.08}s cubic-bezier(.4,0,.2,1)` }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ display:"flex", gap:"4px", marginBottom:"8px" }}>
+                      {barMonths.map(m => <div key={m} className="screen-chart-label" style={{ flex:1, textAlign:"center" }}>{m}</div>)}
+                    </div>
+                    <div className="screen-section-title">Recent Activity</div>
+                    {requests.slice(0,2).map(r => (
+                      <div className="screen-list-item" key={r.label}>
+                        <div className="screen-list-left">
+                          <div className={`screen-list-icon ${r.cls}`}>{r.icon}</div>
+                          <div className="screen-list-info">
+                            <span className="screen-list-label">{r.label}</span>
+                            <span className="screen-list-sub">{r.sub}</span>
+                          </div>
+                        </div>
+                        <span className={`screen-badge ${r.badge}`}>{r.status}</span>
+                      </div>
+                    ))}
+                  </>)}
+
+                  {/* RESIDENTS */}
+                  {activeTab === 1 && (<>
+                    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"6px" }}>
+                      <span className="screen-section-title" style={{ margin:0 }}>All Residents</span>
+                      <span className="screen-badge badge-blue">287 Active</span>
+                    </div>
+                    {residents.map(r => (
+                      <div className="resident-card" key={r.name}>
+                        <div className="resident-avatar" style={{ background: r.color }}>{r.initials}</div>
+                        <div className="resident-info">
+                          <div className="resident-name">{r.name}</div>
+                          <div className="resident-unit">Unit {r.unit}</div>
+                        </div>
+                        <div className="resident-status-col">
+                          <span className={`screen-badge ${r.fee}`}>{r.feeLabel}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </>)}
+
+                  {/* FINANCE */}
+                  {activeTab === 2 && (<>
+                    <div className="finance-summary">
+                      <div className="finance-label">April Balance</div>
+                      <div className="finance-amount">฿127,800</div>
+                      <div className="finance-sub">↑ ฿12,300 from last month</div>
+                    </div>
+                    <div className="screen-section-title">Transactions</div>
+                    {finances.map(f => (
+                      <div className="finance-row" key={f.label}>
+                        <div className="finance-row-left">
+                          <div className="finance-dot" style={{ background: f.color }} />
+                          <div>
+                            <div className="finance-row-label">{f.label}</div>
+                            <div className="finance-row-date">{f.date}</div>
+                          </div>
+                        </div>
+                        <div className="finance-amount-sm" style={{ color: f.positive ? "#16a34a" : "#dc2626" }}>{f.amount}</div>
+                      </div>
+                    ))}
+                  </>)}
+
+                  {/* REQUESTS */}
+                  {activeTab === 3 && (<>
+                    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"6px" }}>
+                      <span className="screen-section-title" style={{ margin:0 }}>Requests</span>
+                      <span className="screen-badge badge-orange">4 Open</span>
+                    </div>
+                    {requests.map(r => (
+                      <div className="screen-list-item" key={r.label}>
+                        <div className="screen-list-left">
+                          <div className={`screen-list-icon ${r.cls}`}>{r.icon}</div>
+                          <div className="screen-list-info">
+                            <span className="screen-list-label">{r.label}</span>
+                            <span className="screen-list-sub">{r.sub}</span>
+                          </div>
+                        </div>
+                        <span className={`screen-badge ${r.badge}`}>{r.status}</span>
+                      </div>
+                    ))}
+                  </>)}
+
+                </div>
+
+                {/* Bottom nav */}
+                <div className="screen-bottomnav">
+                  {bottomNav.map((n, i) => (
+                    <div
+                      key={n.label}
+                      className={`bottom-nav-item${activeTab === i ? " active" : ""}`}
+                      onClick={() => setActiveTab(i)}
+                    >
+                      <span className="bottom-nav-icon">{n.icon}</span>
+                      <span className="bottom-nav-label">{n.label}</span>
                     </div>
                   ))}
                 </div>
-                {[
-                  ["Monthly Fee", "badge-green", "Paid"],
-                  ["Maintenance", "badge-blue", "Scheduled"],
-                  ["New Request", "badge-orange", "Pending"],
-                ].map(([label, cls, status]) => (
-                  <div className="screen-list-item" key={label}>
-                    <span className="screen-list-label">{label}</span>
-                    <span className={`screen-badge ${cls}`}>{status}</span>
-                  </div>
-                ))}
               </div>
             </div>
 
